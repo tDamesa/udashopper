@@ -1,0 +1,209 @@
+{
+	"info": {
+		"_postman_id": "65e2376b-ad96-459e-9885-dd59559a00ad",
+		"name": "Udashopper",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "514757"
+	},
+	"item": [
+		{
+			"name": "Get All Listings",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://df3eg6j3a6.execute-api.us-east-1.amazonaws.com/api/listings",
+					"protocol": "https",
+					"host": [
+						"df3eg6j3a6",
+						"execute-api",
+						"us-east-1",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"api",
+						"listings"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get My Listings",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authToken}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://df3eg6j3a6.execute-api.us-east-1.amazonaws.com/api/my-listings",
+					"protocol": "https",
+					"host": [
+						"df3eg6j3a6",
+						"execute-api",
+						"us-east-1",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"api",
+						"my-listings"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Listing",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authToken}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userId\": \"google-oauth2|100265167555291415500\",\r\n    \"description\": \"sdds\",\r\n    \"id\": \"4b7e88f3-7129-461b-a0b9-6d30a45873e7\",\r\n    \"price\": 12,\r\n    \"imageUrls\": [\r\n        \"https://listings-images-bucket-dev.s3.amazonaws.com/e5c8d0d5-db89-4791-846c-9932c84b936b\",\r\n        \"https://listings-images-bucket-dev.s3.amazonaws.com/6ec36b82-455c-4903-82c8-c9bb1f0e0fee\",\r\n        \"https://listings-images-bucket-dev.s3.amazonaws.com/774bc743-d55e-43c8-b0a8-0ffeb334d0af\",\r\n        \"https://listings-images-bucket-dev.s3.amazonaws.com/957b52d5-2c40-4896-af2a-89354e2bbb64\"\r\n    ],\r\n    \"title\": \"asa!!\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://df3eg6j3a6.execute-api.us-east-1.amazonaws.com/api/listings/update",
+					"protocol": "https",
+					"host": [
+						"df3eg6j3a6",
+						"execute-api",
+						"us-east-1",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"api",
+						"listings",
+						"update"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Listing",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authToken}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\": \"the title\",\r\n    \"price\": 45,\r\n    \"description\": \"the description\",\r\n    \"numberOfImages\": 3\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://df3eg6j3a6.execute-api.us-east-1.amazonaws.com/api/listings/create",
+					"protocol": "https",
+					"host": [
+						"df3eg6j3a6",
+						"execute-api",
+						"us-east-1",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"api",
+						"listings",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Listing",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authToken}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\": \"the title\",\r\n    \"price\": 45,\r\n    \"description\": \"the description\",\r\n    \"numberOfImages\": 3\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://df3eg6j3a6.execute-api.us-east-1.amazonaws.com/api/listings/ef6490f7-20af-4242-b080-7a725e8896c4",
+					"protocol": "https",
+					"host": [
+						"df3eg6j3a6",
+						"execute-api",
+						"us-east-1",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"api",
+						"listings",
+						"ef6490f7-20af-4242-b080-7a725e8896c4"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "authToken",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
