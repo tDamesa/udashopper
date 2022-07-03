@@ -1,0 +1,108 @@
+org: tdamesa
+app: udashopper
+service: udashopper
+frameworkVersion: '3'
+
+custom:
+  listingsTableName: 'listings-table-${sls:stage}'
+  dynamodb:
+    start:
+      migrate: true
+    stages:
+      - dev
+    region:
+      - us-east-1
+  listingsImagesBucket: 'listings-images-bucket-${sls:stage}'
+provider:
+  name: aws
+  runtime: nodejs14.x
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - dynamodb:Query
+            - dynamodb:Scan
+            - dynamodb:GetItem
+            - dynamodb:PutItem
+            - dynamodb:UpdateItem
+            - dynamodb:DeleteItem
+          Resource: arn:aws:dynamodb:${self:custom.dynamodb.region}:*:table/${self:custom.listingsTableName}  
+        - Effect: Allow
+          Action: 's3:ListBucket'
+          Resource: '*'
+        - Effect: Allow
+          Action:
+            - 's3:GetObject'
+            - 's3:PutObject'
+            - 's3:DeleteObject'
+          Resource:
+            - 'arn:aws:s3:::${self:custom.listingsImagesBucket}/*'
+  environment:
+    LISTINGS_TABLE: ${self:custom.listingsTableName}
+    AUTH_ISSUER_BASE_URL: https://dev-wh685a43.us.auth0.com/
+    AUTH_AUDIENCE: https://df3eg6j3a6.execute-api.us-east-1.amazonaws.com
+    IMAGES_S3_BUCKET: ${self:custom.listingsImagesBucket}
+  httpApi:
+    cors: true
+
+functions:
+  api:
+    handler: src/handler.handler
+    events:
+      - httpApi: '*'
+
+resources:
+  Resources:
+    ListingsTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+          - AttributeName: userId
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+          - AttributeName: userId
+            KeyType: RANGE
+        BillingMode: PAY_PER_REQUEST
+        TableName: ${self:custom.listingsTableName}
+
+    AttachmentsBucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: ${self:custom.listingsImagesBucket}
+        CorsConfiguration:
+          CorsRules:
+            -
+              AllowedOrigins:
+                - '*'
+              AllowedHeaders:
+                - '*'
+              AllowedMethods:
+                - GET
+                - PUT
+                - POST
+                - DELETE
+                - HEAD
+              MaxAge: 3000
+    BucketPolicy:
+      Type: AWS::S3::BucketPolicy
+      Properties:
+        PolicyDocument:
+          Id: MyPolicy
+          Version: "2012-10-17"
+          Statement:
+            - Sid: PublicReadForGetBucketObjects
+              Effect: Allow
+              Principal: '*'
+              Action: 's3:GetObject'
+              Resource: 'arn:aws:s3:::${self:custom.listingsImagesBucket}/*'
+        Bucket: !Ref AttachmentsBucket
+
+plugins:
+  - serverless-dynamodb-local
+  - serverless-offline
+  - serverless-plugin-typescript
